@@ -15,11 +15,7 @@
       <ion-col size="12">
         <ion-list>
           <ion-list-header color="primary">
-            <ion-label>Messages
-              <button ion-button (click)="onClickMe()" icon-only clear block>
-                <ion-icon name="trash"></ion-icon>
-              </button>
-            </ion-label>
+            <ion-label>Messages</ion-label>
           </ion-list-header>
           <ion-item type="item-text-wrap" *ngFor="let message of messages" (click)="onSelect(message, index)">
             <ion-icon [name]="message.icon" slot="start"></ion-icon>
@@ -42,6 +38,9 @@
 </ion-content>
 <ion-footer>
   <ion-toolbar>
+    <button ion-button (click)="clearMessages()" small icon-only clear block>
+      <ion-icon name="trash"></ion-icon>
+    </button>
     <textarea cols="100" rows="10" readonly>{{payload}}</textarea>
-</ion-toolbar>
+  </ion-toolbar>
 </ion-footer>

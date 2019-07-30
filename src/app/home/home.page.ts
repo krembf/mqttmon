@@ -66,11 +66,18 @@ export class HomePage {
           rawPayload: payload,
           time: Date.now(),
           selected: false,
-          icon: topic.endsWith("ACK")? "arrow-round-back" : "arrow-round-forward"
+          icon: this.iconDecorator(topic)
         });
         // client.end()
       })
     })
+  }
+
+  iconDecorator(topic: string) {
+    if(topic.endsWith("ACK") || topic.endsWith("ACK_STARTED") || topic.endsWith("ACK_FINISHED")) {
+      return "arrow-round-back";
+    }
+    return "arrow-round-forward";
   }
 
   ngOnInit() {
@@ -94,6 +101,10 @@ export class HomePage {
       childList: true
     });
 
+  }
+
+  ngAfterViewInit() {
+    console.log("ngAfterViewInit called, view became active");
   }
 
   isJSON(MyTestStr) {
@@ -126,7 +137,7 @@ export class HomePage {
     this.selectedMessageIndex = this.messages.indexOf(message);
   }
 
-  onClickMe() {
+  clearMessages() {
     this.messages = [];
     this.selectedMessageIndex = 0;
   }
