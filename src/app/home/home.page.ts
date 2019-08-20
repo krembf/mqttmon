@@ -4,6 +4,8 @@ import { IonContent, IonList } from '@ionic/angular';
 import * as _ from "lodash";
 import * as mqtt from 'mqtt';
 
+import { saveAs } from 'file-saver';
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -66,7 +68,8 @@ export class HomePage {
           rawPayload: payload,
           time: Date.now(),
           selected: false,
-          icon: this.iconDecorator(topic)
+          icon: this.iconDecorator(topic),
+          color: topic.endsWith("NACK")?"danger" : "primary"
         });
         // client.end()
       })
@@ -157,6 +160,25 @@ export class HomePage {
       this.selectedMessageIndex = Math.max(0, this.selectedMessageIndex - 1);
       this.onSelect(this.messages[this.selectedMessageIndex]);
     }
+  }
+
+  logFormatter(messages: any[]) {
+    let formattedLog = "";
+    messages.forEach(element => {
+      let date = new Date(element.time);
+      let formattedDate = [date.getMonth(), date.getDate(), date.getFullYear()].join(":");
+      let formattedmessage = [element.name, element.payload, "\n"].join(": ");
+      formattedLog += [formattedDate, formattedmessage].join(" - ");
+    });
+
+    return formattedLog;
+  }
+
+  exportLog() {
+    var blob = new Blob([this.logFormatter(this.messages)], {type: "text/plain;charset=utf-8"});
+    let date = new Date(Date.now());
+    let formattedDate = [date.getMonth(), date.getDate(), date.getFullYear(), date.getHours(), date.getMinutes()].join(".");
+    saveAs(blob, `mosquitto.${formattedDate}.log`);
   }
 }
 

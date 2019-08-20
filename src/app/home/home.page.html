@@ -20,7 +20,7 @@
           <ion-item type="item-text-wrap" *ngFor="let message of messages" (click)="onSelect(message, index)">
             <ion-icon [name]="message.icon" slot="start"></ion-icon>
             <ion-label [class.highlight]="message.selected">
-              <ion-text color="primary">
+              <ion-text [color]="message.color">
                 <h2><span>{{message.time | date:'HH:mm:ss.SSS'}} : </span><span>{{message.name}}</span></h2>
               </ion-text>
               <ion-text color="secondary">
@@ -41,6 +41,9 @@
     <button ion-button (click)="clearMessages()" small icon-only clear block>
       <ion-icon name="trash"></ion-icon>
     </button>
+    <button ion-button (click)="exportLog()" small icon-only clear block>
+      <ion-icon name="download"></ion-icon>
+    </button>    
     <textarea cols="100" rows="10" readonly>{{payload}}</textarea>
   </ion-toolbar>
 </ion-footer>
