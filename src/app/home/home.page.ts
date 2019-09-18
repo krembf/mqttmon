@@ -5,6 +5,7 @@ import * as _ from "lodash";
 import * as mqtt from 'mqtt';
 
 import { saveAs } from 'file-saver';
+import { DataService } from '../services/data.service';
 
 @Component({
   selector: 'app-home',
@@ -16,24 +17,26 @@ export class HomePage {
   @ViewChild(IonContent) contentArea: IonContent;
   @ViewChild(IonList, { read: ElementRef }) mqttList: ElementRef;
   private mutationObserver: MutationObserver;
+  public searchTerm: string = "";
 
 
   selectedMessageIndex = 0;
   messages = [];
+  filteredMessages = [];
   payload = "";
 
-  constructor() {
+  constructor(private dataService: DataService) {
     console.log("Hello from the home page");
     console.log(_.padStart("Hello TypeScript!", 30, " "));
 
     var client = mqtt.connect({
       servers: [{
         host: "localhost",
-        port: 1889,
+        port: 1880,
         protocol: "ws",
       }],
       host: "localhost",
-      port: 1889,
+      port: 1880,
       defaultProtocol: "ws",
       protocol: "mqtt",
       protocolId: 'MQIsdp',
@@ -71,6 +74,7 @@ export class HomePage {
           icon: this.iconDecorator(topic),
           color: topic.endsWith("NACK")?"danger" : "primary"
         });
+        this.filteredMessages = this.dataService.filterItems(this.messages, this.searchTerm);
         // client.end()
       })
     })
@@ -142,6 +146,7 @@ export class HomePage {
 
   clearMessages() {
     this.messages = [];
+    this.filteredMessages = this.dataService.filterItems(this.messages, this.searchTerm);
     this.selectedMessageIndex = 0;
   }
 
@@ -179,6 +184,10 @@ export class HomePage {
     let date = new Date(Date.now());
     let formattedDate = [date.getMonth(), date.getDate(), date.getFullYear(), date.getHours(), date.getMinutes()].join(".");
     saveAs(blob, `mosquitto.${formattedDate}.log`);
+  }
+
+  setFilteredItems() {
+    this.filteredMessages = this.dataService.filterItems(this.messages, this.searchTerm);
   }
 }
 

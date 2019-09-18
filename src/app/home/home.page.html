@@ -9,6 +9,9 @@
   </ion-toolbar>
 </ion-header>
 
+<ion-toolbar>
+    <ion-searchbar [(ngModel)]="searchTerm" (ionChange)="setFilteredItems()"></ion-searchbar>
+</ion-toolbar>
 <ion-content>
   <ion-grid>
     <ion-row>
@@ -17,11 +20,11 @@
           <ion-list-header color="primary">
             <ion-label>Messages</ion-label>
           </ion-list-header>
-          <ion-item type="item-text-wrap" *ngFor="let message of messages" (click)="onSelect(message, index)">
+          <ion-item type="item-text-wrap" *ngFor="let message of filteredMessages" (click)="onSelect(message, index)">
             <ion-icon [name]="message.icon" slot="start"></ion-icon>
             <ion-label [class.highlight]="message.selected">
               <ion-text [color]="message.color">
-                <h2><span>{{message.time | date:'HH:mm:ss.SSS'}} : </span><span>{{message.name}}</span></h2>
+                <h2><span>{{message.time | date:'HH:mm:ss.SSS'}}: </span><span>{{message.name}}</span></h2>
               </ion-text>
               <ion-text color="secondary">
                 <p>{{message.payload}}</p>
