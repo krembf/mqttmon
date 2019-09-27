@@ -1,0 +1,14 @@
+{
+  "name": "mqtttest",
+  "version": "1.0.0",
+  "description": "test app for mqtt",
+  "main": "mqtttest.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mqtt": "^3.0.0"
+  }
+}

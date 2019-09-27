@@ -41,12 +41,12 @@
 </ion-content>
 <ion-footer>
   <ion-toolbar>
+    <textarea placeholder="Payload not available..." cols="100" rows="10" readonly>{{payload}}</textarea>    
     <button ion-button (click)="clearMessages()" small icon-only clear block>
       <ion-icon name="trash"></ion-icon>
     </button>
     <button ion-button (click)="exportLog()" small icon-only clear block>
       <ion-icon name="download"></ion-icon>
     </button>    
-    <textarea cols="100" rows="10" readonly>{{payload}}</textarea>
   </ion-toolbar>
 </ion-footer>
